@@ -1,0 +1,17 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+@using PictureFixer.Client
+@using PictureFixer.Client.Shared
+@using PictureFixer.Client.Shared.SectionHelper
+@using PictureFixer.Shared
+@using SixLabors.ImageSharp
+@using SixLabors.ImageSharp.PixelFormats
+
+@* The real ErrorBoundary implementation doesn't require you to use a special base class. This is just for the proof-of-concept implementation. *@
+@inherits ErrorBoundaryAwareComponentBase

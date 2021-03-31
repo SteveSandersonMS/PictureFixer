@@ -1,0 +1,46 @@
+﻿@inject HttpClient Http
+
+<EditForm EditContext="@editContext" OnValidSubmit="SaveMetadata">
+    <div class="field mb-5">
+        <ValidationMessage For="() => Image.Name" />
+        <InputText @bind-Value="Image.Name" class="h-10 w-full border-gray-300 px-2 rounded-sm" />
+        <label class="text-gray-600">Name</label>
+    </div>
+
+    <div class="field mb-5">
+        <ValidationMessage For="() => Image.Description" />
+        <InputText @bind-Value="Image.Description" class="h-10 w-full border-gray-300 px-2 rounded-sm" />
+        <label class="text-gray-600">Description</label>
+    </div>
+
+    <button type="submit" class="text-white font-md py-2 px-4 rounded shadow-lg">
+        Save changes
+    </button>
+
+    @if (!editContext.IsModified() && didSave)
+    {
+        <div class="saved pl-5">✔ Saved</div>
+    }
+
+    <DataAnnotationsValidator />
+</EditForm>
+
+@code {
+    EditContext editContext;
+    bool didSave;
+
+    [Parameter] public EditableImage Image { get; set; }
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(Image);
+    }
+
+    private async Task SaveMetadata()
+    {
+        Image.ModifiedAt = DateTime.Now;
+        await Http.PutAsJsonAsync($"api/EditableImage/{Image.Id}", Image);
+        didSave = true;
+        editContext.MarkAsUnmodified();
+    }
+}

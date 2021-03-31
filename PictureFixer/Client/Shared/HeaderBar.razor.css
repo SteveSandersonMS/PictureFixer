@@ -1,0 +1,63 @@
+.headerbar {
+    height: var(--header-height);
+}
+
+nav {
+    color: white;
+    background-color: var(--theme-color);
+    box-shadow: 0 2px 6px #00000066;
+}
+
+.nav-flyout {
+    background-color: #eaeaea;
+}
+
+    .nav-flyout ::deep a {
+        color: #666;
+    }
+
+    .nav-flyout ::deep a:hover:not(.active) {
+        color: black;
+        background-color: #f5f5f5;
+    }
+
+    ::deep a.active {
+        color: black;
+        background: white;
+        font-weight: 600;
+    }
+
+::deep .title {
+    line-height: 1.5rem;
+    font-size: 1.6rem;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+::deep .subtitle {
+    display: block;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    margin-top: -0.25rem;
+}
+
+.hamburger {
+    background-color: #00000066;
+    color: white;
+    opacity: 0.8;
+}
+
+    .hamburger:hover {
+        opacity: 1;
+    }
+
+.logo {
+    color: var(--theme-color);
+    height: 3rem;
+}

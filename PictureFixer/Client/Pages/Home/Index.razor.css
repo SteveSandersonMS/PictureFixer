@@ -1,0 +1,28 @@
+.loading {
+    width: 6rem;
+    height: 6rem;
+    background-color: #ffffffab;
+    margin: 3rem auto;
+    border-radius: 0.7rem;
+    opacity: 0.8;
+    animation: fade-in ease 1s forwards;
+    text-align: center;
+    color: #434242;
+    font-weight: 300;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 30px 0 rgb(0 0 0 / 11%), 0 5px 15px 0 rgb(0 0 0 / 8%);
+}
+
+.loading img {
+    margin-bottom: 0.6rem;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

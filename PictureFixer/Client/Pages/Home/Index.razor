@@ -1,0 +1,45 @@
+﻿@page "/"
+@implements IDisposable
+@inject ComponentApplicationState PersistentData
+@inject HttpClient Http
+
+@if (images == null)
+{
+    <div class="loading">
+        <img src="spinner.gif" alt="Loading indicator" /> Loading
+    </div>
+}
+else
+{
+    <div class="m-4 my-5 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        @foreach (var image in images)
+        {
+            <ImageListItem Image="@image" />
+        }
+    </div>
+}
+
+@code {
+    private EditableImage[] images;
+
+    protected override async Task OnInitializedAsync()
+    {
+        PersistentData.OnPersisting += PersistImageData; // Note: This API will change
+
+        if (!PersistentData.TryTakeAsJson("preloadedImageData", out images))
+        {
+            images = await Http.GetFromJsonAsync<EditableImage[]>("api/EditableImage");
+        }
+    }
+
+    private Task PersistImageData()
+    {
+        PersistentData.PersistAsJson("preloadedImageData", images);
+        return Task.CompletedTask;
+    }
+
+    void IDisposable.Dispose()
+    {
+        PersistentData.OnPersisting -= PersistImageData;
+    }
+}

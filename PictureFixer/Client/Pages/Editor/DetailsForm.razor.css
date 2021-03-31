@@ -1,0 +1,48 @@
+﻿::deep input {
+    border-width: 1px;
+}
+
+    ::deep input:focus + label {
+        color: var(--theme-color);
+    }
+
+    ::deep input:focus {
+        outline: none;
+        border-color: var(--theme-color) !important;
+    }
+
+.field {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+button {
+    background-color: var(--theme-color);
+    opacity: 0.8;
+}
+
+    button:hover {
+        opacity: 1;
+    }
+
+    button:active {
+        opacity: 0.8 !important;
+    }
+
+.saved {
+    display: inline-block;
+    animation: slide-fade-in 0.75s cubic-bezier(.06,.62,.01,.99);
+    color: #318a63;
+}
+
+@keyframes slide-fade-in {
+    0% {
+        opacity: 0;
+        transform: translate(-30px, 0px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0px,0px);
+    }
+}

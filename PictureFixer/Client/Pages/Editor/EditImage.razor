@@ -1,0 +1,98 @@
+﻿@page "/edit/{id:int}"
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<Section Name="title">
+    <a href="" class="subtitle">&lt; Back</a>
+    <div class="title">@Title</div>
+</Section>
+
+<div class="max-w-6xl px-5 mx-auto my-8">
+    <div class="flex flex-col lg:flex-row">
+
+        <!-- Image editor -->
+        <div class="mx-auto max-w-xl flex-shrink-0">
+            <div @ref="editorDiv" @onregiondrawn="HandleRegionDrawnAsync" class="image-editor">
+                <img src="@ImageUrl" />
+            </div>
+            <p class="my-2">
+                <div class="text-sm text-gray-600 mb-2">@progressMessage</div>
+                <ProgressBar Visible="@isProcessing" Percent="@progressPercent" />
+            </p>
+        </div>
+
+        <!-- For for editing title, description, etc. -->
+        <div class="w-full max-w-xl mx-auto flex-grow pt-5 lg:px-5 lg:pt-0">
+            @if (image != null)
+            {
+                <DetailsForm Image="@image" />
+            }
+        </div>
+
+    </div>
+</div>
+
+@code {
+    ElementReference editorDiv;
+    IJSObjectReference module;
+    EditableImage image;
+    string resultImageUrl;
+    double progressPercent;
+    string progressMessage;
+    bool isProcessing;
+    string Title => image == null ? "..." : image.Name;
+    string ImageUrl => resultImageUrl ?? $"api/EditableImage/{Id}/contents";
+
+    [Parameter] public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        image = await Http.GetFromJsonAsync<EditableImage>($"api/EditableImage/{Id}");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Load and initialize this component's JS module
+            module = await JS.InvokeAsync<IJSObjectReference>(
+                "import", "./Pages/Editor/EditImage.razor.js");
+
+            await module.InvokeVoidAsync("init", editorDiv);
+        }
+    }
+
+    private async Task HandleRegionDrawnAsync(RegionDrawnEventArgs eventArgs)
+    {
+        // Copy the raw image bytes into .NET memory
+        var imageBytes = eventArgs.SourceImage.InvokeUnmarshalled<byte[]>("getBytes");
+        var selectionBytes = eventArgs.SelectedRegion.InvokeUnmarshalled<byte[]>("getBytes");
+        await eventArgs.DisposeAsync();
+
+        // Content-aware fill over the selection region
+        await RunPatchMatchAsync(imageBytes, selectionBytes);
+    }
+
+    private async Task RunPatchMatchAsync(byte[] imageBytes, byte[] selectionBytes)
+    {
+        isProcessing = true;
+        var sourceImage = Image.Load<Rgb24>(imageBytes);
+        var maskImage = Image.Load<Rgb24>(selectionBytes);
+        var patchMatch = new PatchMatch(sourceImage, maskImage, patchSize: 8);
+        var startTime = DateTime.Now;
+        while (patchMatch.PercentCompleted < 100)
+        {
+            progressPercent = patchMatch.PercentCompleted;
+            progressMessage = $"Processing image ({progressPercent:F0}%)";
+            StateHasChanged();
+            await Task.Delay(1); // Yield execution so the browser can paint the updated document
+
+            patchMatch.Iterate();
+            resultImageUrl = patchMatch.Image.ToDataUrl();
+        }
+
+        progressMessage = $"Done after {(DateTime.Now - startTime).TotalSeconds:F1}s";
+        await module.InvokeVoidAsync("clearSelection", editorDiv);
+        isProcessing = false;
+    }
+}

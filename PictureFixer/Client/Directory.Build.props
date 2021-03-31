@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <!-- This is purely because of how PatchMatch is implemented, and is not related to Blazor WebAssembly or AOT -->
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+</Project>

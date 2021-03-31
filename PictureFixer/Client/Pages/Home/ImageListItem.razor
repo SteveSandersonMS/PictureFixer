@@ -1,0 +1,43 @@
+<a href="/edit/@Image.Id" class="h-28 block bg-white rounded-md shadow-md flex">
+    <div class="img flex-shrink-0 bg-gray-100 w-32 bg-cover bg-center rounded-md" style="@($"background-image: url('{Image.RelativeUrl}')")"></div>
+    <div class="px-5 py-3 flex flex-col min-w-0">
+        <h3 class="text-lg">@Image.Name</h3>
+        <p class="font-light lineclamp-1">@Image.Description</p>
+        <p class="text-sm theme-color pt-1 mt-auto">@HumanizeLastModified()</p>
+    </div>
+</a>
+
+@code {
+    [Parameter] public EditableImage Image { get; set; }
+
+    public string HumanizeLastModified()
+    {
+        var timeAgo = (int)(DateTime.Now - Image.ModifiedAt).TotalDays;
+        var unit = "day";
+
+        if (timeAgo == 0)
+        {
+            timeAgo = (int)(DateTime.Now - Image.ModifiedAt).TotalHours;
+            unit = "hour";
+        }
+
+        if (timeAgo == 0)
+        {
+            timeAgo = (int)(DateTime.Now - Image.ModifiedAt).TotalMinutes;
+            unit = "minute";
+        }
+
+        if (timeAgo == 0)
+        {
+            timeAgo = (int)(DateTime.Now - Image.ModifiedAt).TotalSeconds;
+            unit = "second";
+        }
+
+        if (timeAgo == 0)
+        {
+            throw new Exception("Unable to humanize last-modified date.");
+        }
+
+        return $"Updated {timeAgo} {unit}{(timeAgo == 1 ? "" : "s")} ago";
+    }
+}

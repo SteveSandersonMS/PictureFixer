@@ -1,0 +1,50 @@
+html {
+    background: #ddd;
+    color: black;
+    font-family: 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    overflow-y: scroll;
+}
+
+.valid.modified:not([type=checkbox]) {
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.error {
+    border: 1px solid black;
+    padding: 1rem;
+    background-color: #FFCCCC;
+}
+
+html.disable-animations * {
+    -webkit-animation-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition: background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;
+}

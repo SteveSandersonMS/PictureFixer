@@ -1,0 +1,12 @@
+.app {
+    --header-height: 5rem;
+    --theme-color: #318a63;
+}
+
+::deep .theme-color {
+    color: var(--theme-color);
+}
+
+main {
+    padding-top: var(--header-height);
+}

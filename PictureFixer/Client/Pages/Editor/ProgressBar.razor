@@ -1,0 +1,14 @@
+﻿@if (Visible)
+{
+    <div class="h-2 relative max-w-xl rounded-full overflow-hidden">
+        <div class="w-full h-full bg-gray-200 absolute"></div>
+        <div style="@WidthStyle" class="h-full bg-green-500 relative w-0"></div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; } = true;
+    [Parameter] public double Percent { get; set; }
+
+    private string WidthStyle => $"width: {Percent}%";
+}
