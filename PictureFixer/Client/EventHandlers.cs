@@ -12,7 +12,6 @@ namespace PictureFixer.Client
         // This static class configures the Razor compiler
     }
 
-    /* Ignore - temporary workaround:  [JsonConverter(typeof(WorkaroundPreview3Bug<RegionDrawnEventArgs>))] */
 
     public class RegionDrawnEventArgs : EventArgs, IAsyncDisposable
     {
