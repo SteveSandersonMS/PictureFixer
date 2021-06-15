@@ -10,6 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PictureFixer.Shared", "Shar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{578A4BFA-EDA0-4EB8-8750-269283E234A6}"
 	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
 		..\.github\workflows\PictureFixer.yaml = ..\.github\workflows\PictureFixer.yaml
 	EndProjectSection
 EndProject
