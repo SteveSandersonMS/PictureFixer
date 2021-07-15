@@ -8,14 +8,12 @@
   <ItemGroup>
     <!-- Make any .js files in Pages or Shared available as static content -->
     <JavaScriptModules Include="Pages\**\*.js; Shared\**\*.js" RelativePath="%(Identity)" />
-    <StaticWebAsset Include="@(JavaScriptModules->'%(FullPath)')"
-                    SourceType="" SourceId="$(PackageId)" RelativePath="%(RelativePath)"
-                    BasePath="$(StaticWebAssetBasePath)" ContentRoot="$(MSBuildProjectDirectory)" />
+    <StaticWebAsset Include="@(JavaScriptModules->'%(FullPath)')" SourceType="" SourceId="$(PackageId)" RelativePath="%(RelativePath)" BasePath="$(StaticWebAssetBasePath)" ContentRoot="$(MSBuildProjectDirectory)" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.4.21253.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.4.21253.5" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.6.21355.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.6.21355.2" PrivateAssets="all" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
   </ItemGroup>
 
