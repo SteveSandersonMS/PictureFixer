@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.7.21378.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.7.21378.6" PrivateAssets="all" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4-alpha.0.50" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4-alpha.0.59" />
   </ItemGroup>
 
   <ItemGroup>
