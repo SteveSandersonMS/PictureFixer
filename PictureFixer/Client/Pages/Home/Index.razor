@@ -1,6 +1,6 @@
 ﻿@page "/"
 @implements IDisposable
-@inject ComponentApplicationState PersistentData
+@inject PersistentComponentState PersistentState
 @inject HttpClient Http
 
 @if (images == null)
@@ -21,12 +21,13 @@ else
 
 @code {
     private EditableImage[] images;
+    PersistingComponentStateSubscription persistingSubscription;
 
     protected override async Task OnInitializedAsync()
     {
-        PersistentData.OnPersisting += PersistImageData; // Note: This API will change
+        persistingSubscription = PersistentState.RegisterOnPersisting(PersistImageData);
 
-        if (!PersistentData.TryTakeAsJson("preloadedImageData", out images))
+        if (!PersistentState.TryTakeFromJson("preloadedImageData", out images))
         {
             images = await Http.GetFromJsonAsync<EditableImage[]>("api/EditableImage");
         }
@@ -34,12 +35,12 @@ else
 
     private Task PersistImageData()
     {
-        PersistentData.PersistAsJson("preloadedImageData", images);
+        PersistentState.PersistAsJson("preloadedImageData", images);
         return Task.CompletedTask;
     }
 
     void IDisposable.Dispose()
     {
-        PersistentData.OnPersisting -= PersistImageData;
+        persistingSubscription.Dispose();
     }
 }

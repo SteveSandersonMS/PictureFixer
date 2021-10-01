@@ -39,7 +39,9 @@ namespace PictureFixer.Server
             {
                 var server = serviceProvider.GetRequiredService<IServer>();
                 var addressFeature = server.Features.Get<IServerAddressesFeature>();
-                return new HttpClient { BaseAddress = new Uri(addressFeature.Addresses.First()) };
+                var client = new HttpClient { BaseAddress = new Uri(addressFeature.Addresses.First()) };
+                client.DefaultRequestHeaders.Add("User-Agent", "PictureFixer/1.0");
+                return client;
             });
         }
 
